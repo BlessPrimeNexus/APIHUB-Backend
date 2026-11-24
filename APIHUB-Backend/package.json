@@ -1,0 +1,13 @@
+{
+  "name": "apihub-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "APIHUB backend: management REST API + API execution engine (zero runtime dependencies).",
+  "engines": { "node": ">=22.13" },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/server.js",
+    "migrate": "node --disable-warning=ExperimentalWarning src/migrate.js",
+    "test": "node --disable-warning=ExperimentalWarning --test tests/*.test.js"
+  }
+}

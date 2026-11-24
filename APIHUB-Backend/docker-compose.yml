@@ -1,0 +1,31 @@
+# APIHUB backend + Caddy (automatic HTTPS). Usage: see docs/DEPLOYMENT.md
+services:
+  apihub:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_PATH: /app/data/apihub.db
+      NODE_ENV: production
+      TRUST_PROXY: "1"
+    volumes:
+      - apihub-data:/app/data
+    expose:
+      - "8080"
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on: [apihub]
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      APIHUB_DOMAIN: ${APIHUB_DOMAIN:?set APIHUB_DOMAIN in .env}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+volumes:
+  apihub-data:
+  caddy-data:
+  caddy-config:
